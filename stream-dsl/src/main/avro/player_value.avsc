@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "PlayerValue",
+  "namespace": "fr.viteducode.avro",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "isPlaying",
+      "type": "boolean"
+    }
+  ]
+}

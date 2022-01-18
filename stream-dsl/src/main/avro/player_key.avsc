@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "PlayerKey",
+  "namespace": "fr.viteducode.avro",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    }
+  ]
+}

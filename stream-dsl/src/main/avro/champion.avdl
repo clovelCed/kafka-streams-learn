@@ -1,0 +1,11 @@
+@namespace("fr.viteducode.avro")
+protocol ChampionInterface {
+
+  record ChampionKey{
+    long id;
+  }
+
+  record ChampionValue{
+    string name;
+  }
+}
