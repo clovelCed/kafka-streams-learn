@@ -1,11 +1,11 @@
 {
   "type": "record",
-  "name": "PlayerKey",
+  "name": "TitleKey",
   "namespace": "fr.viteducode.avro",
   "fields": [
     {
-      "name": "id",
-      "type": "long"
+      "name": "showId",
+      "type": "string"
     }
   ]
 }

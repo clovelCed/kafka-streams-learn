@@ -1,0 +1,43 @@
+{
+    "type": "record",
+    "name": "TitleValue",
+    "namespace": "fr.viteducode.avro",
+    "fields": [
+        {
+            "name": "type",
+            "type": "string"
+        },
+        {
+            "name": "title",
+            "type": "string"
+        },
+        {
+            "name": "director",
+            "type": "string"
+        },
+        {
+            "name": "cast",
+            "type": "string"
+        },
+        {
+            "name": "country",
+            "type": "string"
+        },
+        {
+            "name": "dateAdded",
+            "type": "string"
+        },
+        {
+            "name": "releaseYear",
+            "type": "int"
+        },
+        {
+            "name": "rating",
+            "type": "string"
+        },
+        {
+            "name": "duration",
+            "type": "string"
+        }
+    ]
+}
