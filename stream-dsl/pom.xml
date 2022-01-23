@@ -52,12 +52,27 @@
             <version>${kafka.avro.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-streams-avro-serde</artifactId>
+            <version>${kafka.avro.version}</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.apache.avro/avro -->
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
             <version>${avro.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-log4j-appender -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-log4j-appender</artifactId>
+            <version>${kafka-version}</version>
+        </dependency>
+
+
 
 
     </dependencies>
