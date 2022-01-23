@@ -1,0 +1,23 @@
+{
+    "type": "record",
+    "name": "CastTitleValue",
+    "namespace": "fr.viteducode.avro",
+    "fields": [
+        {
+            "name": "showId",
+            "type": "string"
+        },
+        {
+            "name": "title",
+            "type": "string"
+        },
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "releaseYear",
+            "type": "string"
+        }
+    ]
+}

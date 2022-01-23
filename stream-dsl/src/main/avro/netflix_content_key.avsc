@@ -1,0 +1,11 @@
+{
+    "type": "record",
+    "name": "NetflixContentKey",
+    "namespace": "fr.viteducode.avro",
+    "fields": [
+        {
+            "name": "showId",
+            "type": "string"
+        }
+    ]
+}

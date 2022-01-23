@@ -1,6 +1,6 @@
 {
     "type": "record",
-    "name": "NetflixContent",
+    "name": "NetflixContentValue",
     "namespace": "fr.viteducode.avro",
     "fields": [
         {

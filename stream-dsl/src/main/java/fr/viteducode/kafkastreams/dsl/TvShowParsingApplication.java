@@ -1,6 +1,7 @@
 package fr.viteducode.kafkastreams.dsl;
 
-import fr.viteducode.avro.NetflixContent;
+import fr.viteducode.avro.NetflixContentKey;
+import fr.viteducode.avro.NetflixContentValue;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.common.serialization.Serde;
@@ -17,50 +18,36 @@ import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
-public class MovieParsinApplication {
+public class TvShowParsingApplication {
 
     public static void main(String[] args) {
 
         Properties properties = new Properties();
         properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "0.0.0.0:9092");
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "my-app-1");
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "parsing-content-movie-app");
         properties.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://0.0.0.0:8081");
         properties.put("auto.offset.reset", "earliest");
 
+        final Map<String, String> serdeConfig = Collections.singletonMap("schema.registry.url", "http://0.0.0.0:8081");
+
+        final Serde<NetflixContentKey> serdeAvroKey = new SpecificAvroSerde<>();
+        serdeAvroKey.configure(serdeConfig, true);
+
+        final Serde<NetflixContentValue> serdeAvroValue = new SpecificAvroSerde<>();
+        serdeAvroValue.configure(serdeConfig, false);
+
         StreamsBuilder builder = new StreamsBuilder();
 
-        KStream<String, String> stream = builder.stream("topic-source", Consumed.with(Serdes.String(), Serdes.String()));
+        KStream<NetflixContentKey, NetflixContentValue> stream = builder.stream("topic-movie-content", Consumed.with(serdeAvroKey, serdeAvroValue));
 
-        KStream<String, NetflixContent> fullTitleStream = stream.map((key, value) -> {
-
-            String[] values = value.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-
-            KeyValue<String, NetflixContent> pair = null;
-
-            try {
-                NetflixContent content = NetflixContent.newBuilder()
-                        .setShowId(values[0])
-                        .setType(values[1])
-                        .setTitle(values[2])
-                        .setDirector(values[3])
-                        .setCast(values[4].replaceAll("\"", ""))
-                        .setCountry(values[5])
-                        .setDateAdded(values[6].replaceAll("\"", ""))
-                        .setReleaseYear(values[7])
-                        .setRating(values[8])
-                        .setDuration(values[9])
-                        .build();
-
-                pair = KeyValue.pair(content.getShowId(), content);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("args = [" + args + "]");
-            }
+        stream
+                .filter((key, value) -> !value.getCast().isEmpty())
+                .flatMap((key, value) -> Arrays.stream(value.getCast().split(",")).map(cast -> KeyValue.pair(cast, value)).collect(Collectors.toList()))
+                //.peek((titleKey, value) -> System.out.println(value))
+                .to("topic-movie-cast", Produced.with(Serdes.String(), serdeAvroValue));
 
 
-            return pair;
-        });
-
-        KStream<String, NetflixContent>[] branches = fullTitleStream.branch(
+        /*KStream<String, NetflixContent>[] branches = fullTitleStream.branch(
                 (titleKey, titleValue) -> ("Movie".equals(titleValue.getType())),
                 (titleKey, titleValue) -> ("TV Show".equals(titleValue.getType()))
         );
@@ -68,14 +55,9 @@ public class MovieParsinApplication {
         KStream<String, NetflixContent> movieStream = branches[0];
 
         final Map<String, String> serdeConfig = Collections.singletonMap("schema.registry.url", "http://0.0.0.0:8081");
-        final Serde<NetflixContent> serdeAvroValue = new SpecificAvroSerde<>();
-        serdeAvroValue.configure(serdeConfig, false);
 
-        movieStream
-                .filter((key, value) -> !value.getCast().isEmpty())
-                .flatMap((key, value) -> Arrays.stream(value.getCast().split(",")).map(cast -> KeyValue.pair(cast, value)).collect(Collectors.toList()))
-                //.peek((titleKey, value) -> System.out.println(value))
-                .to("topic-movie-cast", Produced.with(Serdes.String(), serdeAvroValue));
+
+
 
         KStream<String, NetflixContent> tvShowStream = branches[1];
         tvShowStream
@@ -86,7 +68,7 @@ public class MovieParsinApplication {
                     System.out.println("args = [" + args + "]");
                     System.out.printf("Show -> KEY : %s - VALUE : %s", titleKey, value);
                 });
-        //.to("topic-show-cast", Produced.with(Serdes.String(), Serdes.String()));
+        //.to("topic-show-cast", Produced.with(Serdes.String(), Serdes.String()));*/
 
         Topology topology = builder.build();
 
