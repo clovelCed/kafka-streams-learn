@@ -51,18 +51,20 @@ public class MovieParsingApplication {
                 .filter((key, value) -> !value.getCast().isEmpty())
                 .flatMap((key, value) -> Arrays.stream(value.getCast().split(",")).map(cast -> {
 
-                    String trimedCast = cast.trim();
+                    String trimmedCast = cast.trim();
 
-                    CastTitleKey castTitleKey = CastTitleKey.newBuilder().setName(trimedCast).build();
+                    CastTitleKey castTitleKey = CastTitleKey.newBuilder().setName(trimmedCast).build();
+
                     CastTitleValue castTitleValue = CastTitleValue.newBuilder()
                             .setTitle(value.getTitle())
-                            .setName(trimedCast)
+                            .setName(trimmedCast)
                             .setReleaseYear(value.getReleaseYear())
                             .setShowId(value.getShowId())
                             .build();
+
                     return KeyValue.pair(castTitleKey, castTitleValue);
+
                 }).collect(Collectors.toList()))
-                //.peek((titleKey, value) -> System.out.println(value))
                 .to("topic-movie-cast", Produced.with(outcomingSerdeAvroKey, outcomingSerdeAvroValue));
 
         Topology topology = builder.build();
