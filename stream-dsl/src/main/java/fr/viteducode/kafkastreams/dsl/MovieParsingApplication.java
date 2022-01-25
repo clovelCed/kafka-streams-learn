@@ -20,25 +20,11 @@ public class MovieParsingApplication {
         Properties properties = new Properties();
         properties.put(StreamsConfig.STATE_DIR_CONFIG, "./kstream-store");
         properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "0.0.0.0:9092");
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "parsing-content-movie-app");
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "app-parsing-movie");
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
         properties.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://0.0.0.0:8081");
         properties.put("auto.offset.reset", "earliest");
-
-        /*final Map<String, String> serdeConfig = Collections.singletonMap("schema.registry.url", "http://0.0.0.0:8081");
-
-        final Serde<NetflixContentKey> incomingSerdeAvroKey = new SpecificAvroSerde<>();
-        incomingSerdeAvroKey.configure(serdeConfig, true);
-
-        final Serde<NetflixContentValue> incomingSerdeAvroValue = new SpecificAvroSerde<>();
-        incomingSerdeAvroValue.configure(serdeConfig, false);
-
-        final Serde<CastTitleKey> outcomingSerdeAvroKey = new SpecificAvroSerde<>();
-        outcomingSerdeAvroKey.configure(serdeConfig, true);
-
-        final Serde<CastTitleValue> outcomingSerdeAvroValue = new SpecificAvroSerde<>();
-        outcomingSerdeAvroValue.configure(serdeConfig, false);*/
 
         StreamsBuilder builder = new StreamsBuilder();
 

@@ -17,8 +17,9 @@ public class ParsingContentApplication {
     public static void main(String[] args) {
 
         Properties properties = new Properties();
+        properties.put(StreamsConfig.STATE_DIR_CONFIG, "./kstream-store");
         properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "0.0.0.0:9092");
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "parsing-content-app");
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, "app-parsing-content");
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, SpecificAvroSerde.class);
         properties.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://0.0.0.0:8081");
