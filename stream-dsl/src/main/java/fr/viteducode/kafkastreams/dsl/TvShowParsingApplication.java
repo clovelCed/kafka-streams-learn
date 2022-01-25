@@ -1,9 +1,6 @@
 package fr.viteducode.kafkastreams.dsl;
 
-import fr.viteducode.avro.CastTitleKey;
-import fr.viteducode.avro.CastTitleValue;
-import fr.viteducode.avro.NetflixContentKey;
-import fr.viteducode.avro.NetflixContentValue;
+import fr.viteducode.avro.*;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.streams.KafkaStreams;
@@ -11,7 +8,9 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
@@ -39,16 +38,26 @@ public class TvShowParsingApplication {
 
                     String trimmedCast = cast.trim();
 
-                    return CastTitleValue.newBuilder()
+                    return ActorTitleValue.newBuilder()
                             .setTitle(value.getTitle())
-                            .setName(trimmedCast)
+                            .setActorName(trimmedCast)
                             .setReleaseYear(value.getReleaseYear())
                             .setShowId(value.getShowId())
                             .build();
 
                 }).collect(Collectors.toList()))
-                .selectKey((titleKey, value) -> CastTitleKey.newBuilder().setName(value.getName()).build())
-                .to("topic-tvshow-cast");
+                .selectKey((titleKey, value) -> ActorTitleKey.newBuilder().setActorName(value.getActorName()).build())
+                .through("topic-actor-tvshow")
+                .groupBy((actorTitleKey, actorTitleValue) -> actorTitleKey)
+                .aggregate(
+                        () -> ActorWithTitlesValue.newBuilder().setTitles(new ArrayList<>()).build(),
+                        (actorTitleKey, actorTitleValue, actorWithTitlesValue) -> {
+                            actorWithTitlesValue.getTitles().add(actorTitleValue.getTitle());
+                            return actorWithTitlesValue;
+                        }
+                        , Materialized.as("topic-actor-with-titles-tvshow-store"))
+                .toStream()
+                .to("topic-actor-with-titles-tvshow");
 
         Topology topology = builder.build();
 

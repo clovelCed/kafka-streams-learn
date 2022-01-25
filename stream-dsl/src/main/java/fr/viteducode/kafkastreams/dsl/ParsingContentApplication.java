@@ -26,7 +26,7 @@ public class ParsingContentApplication {
 
         StreamsBuilder builder = new StreamsBuilder();
 
-        KStream<String, String> stream = builder.stream("topic-source", Consumed.with(Serdes.String(), Serdes.String()));
+        KStream<String, String> stream = builder.stream("topic-netflix-content", Consumed.with(Serdes.String(), Serdes.String()));
 
         KStream<NetflixContentKey, NetflixContentValue> fullTitleStream = stream.map((key, value) -> {
 

@@ -1,10 +1,10 @@
 {
     "type": "record",
-    "name": "CastTitleKey",
+    "name": "ActorTitleKey",
     "namespace": "fr.viteducode.avro",
     "fields": [
         {
-            "name": "name",
+            "name": "actorName",
             "type": "string"
         }
     ]

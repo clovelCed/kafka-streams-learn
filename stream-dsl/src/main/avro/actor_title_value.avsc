@@ -1,6 +1,6 @@
 {
     "type": "record",
-    "name": "CastTitleValue",
+    "name": "ActorTitleValue",
     "namespace": "fr.viteducode.avro",
     "fields": [
         {
@@ -12,7 +12,7 @@
             "type": "string"
         },
         {
-            "name": "name",
+            "name": "actorName",
             "type": "string"
         },
         {

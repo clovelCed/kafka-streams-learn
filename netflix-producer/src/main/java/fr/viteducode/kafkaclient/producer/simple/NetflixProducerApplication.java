@@ -15,7 +15,7 @@ public class NetflixProducerApplication {
 
     public static void main(String[] args) {
 
-        String topic = args.length > 0 ? args[0] : "topic-source";
+        String topic = args.length > 0 ? args[0] : "topic-netflix-content";
 
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "0.0.0.0:9092");
