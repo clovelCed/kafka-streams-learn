@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "CompanieKey",
+  "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    }
+  ]
+}
