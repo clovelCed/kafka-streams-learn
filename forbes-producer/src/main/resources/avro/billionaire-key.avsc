@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "BillionaireKey",
+  "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    }
+  ]
+}
