@@ -1,10 +1,10 @@
 {
   "type": "record",
-  "name": "CompanieKey",
+  "name": "CompanyKey",
   "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
   "fields": [
     {
-      "name": "id",
+      "name": "rank",
       "type": "int"
     }
   ]

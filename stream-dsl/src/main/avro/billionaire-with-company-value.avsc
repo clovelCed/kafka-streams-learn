@@ -1,0 +1,21 @@
+{
+  "type": "record",
+  "name": "BillionaireWithCompanyValue",
+  "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
+  "fields": [
+    {"name": "name", "type": ["null", "string"], "default": null},
+    {"name": "age", "type": ["null", "int"], "default": null},
+    {"name": "finalWorth", "type": ["null", "int"], "default": null},
+    {"name": "country", "type": ["null", "string"], "default": null},
+    {
+      "name": "company",
+      "type":{
+        "type": "record",
+        "name": "Company",
+        "fields": [
+          {"name": "name", "type": ["null", "string"], "default": null}
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "CompanyValue",
+  "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
+  "fields": [
+    {"name": "name", "type": ["null", "string"], "default": null},
+    {"name": "country", "type": ["null", "string"], "default": null},
+    {"name": "sales", "type": ["null", "string"], "default": null},
+    {"name": "profit", "type": ["null", "string"], "default": null}
+  ]
+}

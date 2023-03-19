@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "name": "BillionaireKey",
+  "name": "CompanyKey",
   "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
   "fields": [
     {

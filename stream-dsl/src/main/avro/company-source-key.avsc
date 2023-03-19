@@ -1,11 +1,11 @@
 {
   "type": "record",
-  "name": "BillionaireKey",
+  "name": "CompanyNameKey",
   "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
   "fields": [
     {
-      "name": "rank",
-      "type": "int"
+      "name": "companyName",
+      "type": "string"
     }
   ]
 }

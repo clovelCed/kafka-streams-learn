@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "BillionaireWithCompanyKey",
+  "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
+  "fields": [
+    {"name": "billionaireName", "type": ["null", "string"], "default": null},
+    {"name": "companyName", "type": ["null", "string"], "default": null}
+  ]
+}

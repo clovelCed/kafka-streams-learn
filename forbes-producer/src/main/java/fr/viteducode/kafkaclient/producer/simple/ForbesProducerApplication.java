@@ -7,8 +7,8 @@ import com.opencsv.RFC4180ParserBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
 import fr.viteducode.kafkaclient.producer.simple.data.BillionaireKey;
 import fr.viteducode.kafkaclient.producer.simple.data.BillionaireValue;
-import fr.viteducode.kafkaclient.producer.simple.data.CompanieKey;
-import fr.viteducode.kafkaclient.producer.simple.data.CompanieValue;
+import fr.viteducode.kafkaclient.producer.simple.data.CompanyKey;
+import fr.viteducode.kafkaclient.producer.simple.data.CompanyValue;
 import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -87,8 +87,8 @@ public class ForbesProducerApplication {
             String[] line;
             while ((line = csvReader.readNext()) != null) {
 
-                CompanieKey key = this.mapCompanieKey(line);
-                CompanieValue value = this.mapCompanieValue(line);
+                CompanyKey key = this.mapCompanyKey(line);
+                CompanyValue value = this.mapCompanyValue(line);
 
                 ProducerRecord<SpecificRecord, SpecificRecord> record = new ProducerRecord<>(TOPIC_COMPANIE, key, value);
                 producer.send(record, (recordMetadata, exception) -> {
@@ -110,13 +110,12 @@ public class ForbesProducerApplication {
                 .setCategory(line[4])
                 .setSource(line[5])
                 .setCountry(line[6])
-                .setCountry(line[7])
                 .setState(line[8])
                 .build();
     }
 
-    private CompanieValue mapCompanieValue(String[] line) {
-        return CompanieValue.newBuilder()
+    private CompanyValue mapCompanyValue(String[] line) {
+        return CompanyValue.newBuilder()
                 .setName(line[1])
                 .setCountry(line[2])
                 .setSales(line[3])
@@ -126,13 +125,13 @@ public class ForbesProducerApplication {
 
     private BillionaireKey mapBillionaireKey(String[] line) {
         return BillionaireKey.newBuilder()
-                .setId(this.parseInt(line[0]))
+                .setRank(this.parseInt(line[0]))
                 .build();
     }
 
-    private CompanieKey mapCompanieKey(String[] line) {
-        return CompanieKey.newBuilder()
-                .setId(this.parseInt(line[0]))
+    private CompanyKey mapCompanyKey(String[] line) {
+        return CompanyKey.newBuilder()
+                .setRank(this.parseInt(line[0]))
                 .build();
     }
 
