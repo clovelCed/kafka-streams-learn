@@ -31,20 +31,16 @@ public class BillionairesStreamsApplication {
 
         KStream<BillionaireKey, BillionaireValue> stream = builder.stream("topic-billionaires");
 
-        stream.mapValues((BillionaireKey, BillionaireValue) -> {
-                    if (BillionaireValue.getCountry() == null) {
-                        BillionaireValue.setCountry("Unknown");
-                    }
-                    return BillionaireValue;
-                }).filter((BillionaireKey, BillionaireValue) -> "France".equals(BillionaireValue.getCountry()) || "Unknown".equals(BillionaireValue.getCountry()))
+        stream
+                .filter((BillionaireKey, BillionaireValue) -> "France".equals(BillionaireValue.getCountry()) || "United States".equals(BillionaireValue.getCountry()))
                 .peek((BillionaireKey, BillionaireValue) -> System.out.println(BillionaireValue.getCountry()))
                 .split()
                 .branch(
                         (BillionaireKey, BillionaireValue) -> ("France".equals(BillionaireValue.getCountry())),
                         Branched.withConsumer(k -> k.to("topic-france-billionaire")))
                 .branch(
-                        (BillionaireKey, BillionaireValue) -> ("Unknown".equals(BillionaireValue.getCountry())),
-                        Branched.withConsumer(k -> k.to("topic-unknown-billionaire")));
+                        (BillionaireKey, BillionaireValue) -> ("United States".equals(BillionaireValue.getCountry())),
+                        Branched.withConsumer(k -> k.to("topic-united_states-billionaire")));
 
 
         Topology topology = builder.build();
