@@ -108,7 +108,7 @@ public class ForbesProducerApplication {
                 .setAge(this.parseInt(line[2]))
                 .setFinalWorth(this.parseInt(line[3]))
                 .setCategory(line[4])
-                .setSource(line[5])
+                .setOrganization(line[9])
                 .setCountry(line[6])
                 .setState(line[8])
                 .build();

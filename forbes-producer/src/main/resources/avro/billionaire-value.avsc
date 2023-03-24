@@ -7,7 +7,7 @@
     {"name": "age", "type": ["null", "int"], "default": null},
     {"name": "finalWorth", "type": ["null", "int"], "default": null},
     {"name": "category", "type": ["null", "string"], "default": null},
-    {"name": "source", "type": ["null", "string"], "default": null},
+    {"name": "organization", "type": ["null", "string"], "default": null},
     {"name": "country", "type": ["null", "string"], "default": null},
     {"name": "state", "type": ["null", "string"], "default": null}
   ]

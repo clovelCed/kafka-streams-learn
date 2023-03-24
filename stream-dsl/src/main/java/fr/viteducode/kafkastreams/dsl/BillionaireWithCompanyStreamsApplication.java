@@ -38,8 +38,9 @@ public class BillionaireWithCompanyStreamsApplication {
         KStream<BillionaireKey, BillionaireValue> streamBillionaires = builder.stream("topic-billionaires");
 
         KStream<CompanyNameKey, BillionaireValue> streamBillionaireByName = streamBillionaires
+                .filter((billionaireKey, billionaireValue) -> billionaireValue.getOrganization() != null)
                 .selectKey(
-                        (billionaireKey, billionaireValue) -> CompanyNameKey.newBuilder().setCompanyName(billionaireValue.getSource()).build(),
+                        (billionaireKey, billionaireValue) -> CompanyNameKey.newBuilder().setCompanyName(billionaireValue.getOrganization()).build(),
                         Named.as("select-key-billionaire-join")
                 );
 
