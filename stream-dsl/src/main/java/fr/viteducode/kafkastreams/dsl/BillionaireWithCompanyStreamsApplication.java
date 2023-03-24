@@ -52,7 +52,7 @@ public class BillionaireWithCompanyStreamsApplication {
                             .setAge(billionaireValue.getAge())
                             .setCountry(billionaireValue.getCountry())
                             .setFinalWorth(billionaireValue.getFinalWorth())
-                            .setCompany(Company
+                            .setCompany(BillionaireCompanyValue
                                     .newBuilder()
                                     .setName(companyValue.getName())
                                     .build());

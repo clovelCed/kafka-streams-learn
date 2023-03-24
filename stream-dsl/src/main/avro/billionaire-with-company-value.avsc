@@ -11,7 +11,7 @@
       "name": "company",
       "type":{
         "type": "record",
-        "name": "Company",
+        "name": "BillionaireCompanyValue",
         "fields": [
           {"name": "name", "type": ["null", "string"], "default": null}
         ]
