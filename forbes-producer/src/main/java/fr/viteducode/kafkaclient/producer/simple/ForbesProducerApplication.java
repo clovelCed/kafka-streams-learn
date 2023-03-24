@@ -22,11 +22,11 @@ public class ForbesProducerApplication {
 
     private final static String TOPIC_BILLIONAIRE = "topic-billionaires";
 
-    private final static String TOPIC_COMPANIE = "topic-companies";
+    private final static String TOPIC_COMPANY = "topic-companies";
 
     private final RFC4180Parser rfc4180ParserBuilder;
 
-    private KafkaProducer<SpecificRecord, SpecificRecord> producer;
+    private final KafkaProducer<SpecificRecord, SpecificRecord> producer;
 
     public ForbesProducerApplication() {
 
@@ -90,7 +90,7 @@ public class ForbesProducerApplication {
                 CompanyKey key = this.mapCompanyKey(line);
                 CompanyValue value = this.mapCompanyValue(line);
 
-                ProducerRecord<SpecificRecord, SpecificRecord> record = new ProducerRecord<>(TOPIC_COMPANIE, key, value);
+                ProducerRecord<SpecificRecord, SpecificRecord> record = new ProducerRecord<>(TOPIC_COMPANY, key, value);
                 producer.send(record, (recordMetadata, exception) -> {
                     if (exception != null) {
                         System.out.println(exception.getMessage());
