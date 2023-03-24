@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "CompanyGroupedByCountryValue",
+  "namespace": "fr.viteducode.kafkaclient.producer.simple.data",
+  "fields": [
+    {"name": "countryName", "type": ["null", "string"], "default": null},
+    {"name": "amount", "type": ["null", "int"], "default": null}
+  ]
+}

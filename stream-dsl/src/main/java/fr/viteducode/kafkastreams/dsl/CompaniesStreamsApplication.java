@@ -1,20 +1,20 @@
 package fr.viteducode.kafkastreams.dsl;
 
+import fr.viteducode.kafkaclient.producer.simple.data.CompanyGroupedByCountryKey;
+import fr.viteducode.kafkaclient.producer.simple.data.CompanyGroupedByCountryValue;
 import fr.viteducode.kafkaclient.producer.simple.data.CompanyKey;
 import fr.viteducode.kafkaclient.producer.simple.data.CompanyValue;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 
+import java.security.Key;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
@@ -47,9 +47,15 @@ public class CompaniesStreamsApplication {
                 .groupBy((CompanyKey, companyValue) -> companyValue.getCountry(), Grouped.with(Serdes.String(), valueSerde))
                 .count(Materialized.as("topic-store-count-companies-by-country"))
                 .toStream()
-                .mapValues(v -> v.toString() + " companies")
-                .peek((s, s2) -> System.out.println(s + " " + s2))
-                .to("topic-count-companies-by-country", Produced.with(Serdes.String(), Serdes.String()));
+                .map((country, amount) -> {
+                    CompanyGroupedByCountryKey key = CompanyGroupedByCountryKey.newBuilder().setCountryName(country).build();
+                    CompanyGroupedByCountryValue value = CompanyGroupedByCountryValue.newBuilder()
+                            .setAmount(amount.intValue())
+                            .setCountryName(country)
+                            .build();
+                    return KeyValue.pair(key, value);
+                })
+                .to("topic-count-companies-by-country");
 
         Topology topology = builder.build();
 
