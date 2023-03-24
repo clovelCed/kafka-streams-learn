@@ -50,7 +50,7 @@ public class ForbesProducerApplication {
 
     public void run() {
         this.produceBillionaire();
-        this.produceCompanie();
+        this.produceCompany();
         producer.close();
     }
 
@@ -78,7 +78,7 @@ public class ForbesProducerApplication {
         }
     }
 
-    private void produceCompanie() {
+    private void produceCompany() {
 
         try (InputStream fileStream = ForbesProducerApplication.class.getClassLoader().getResourceAsStream("forbes_companies_2022.csv");
              InputStreamReader inputStreamReader = new InputStreamReader(fileStream);
